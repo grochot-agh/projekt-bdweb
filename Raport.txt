@@ -1,11 +1,23 @@
 Planowanie 22.06.2024r.
 
-1. Ogólny zarys projektu
 - backend oparty na socetio
 - architektura klient - serwer
 - omówienie elementów frontendu
-* rejestracja
-* logowanie
-* instrukcja
+* rejestracja - tj. instrukcja
+* logowanie - tj. instrukcja
+* instrukcja - sam tekst
+* waiting room - nazwa pokoju, lista graczy, start - tylko właściciel
+* stwórz grę: nazwa pokoju, hasło, if guest - nick
+* dołącz do gry: nazwa pokoju, hasło, if guest - nick
+* o nas - sam tekst
+* waiting view
 * navbar:
 HomePage - Dołącz do gry - Stwórz grę - Help -> instrukcja - o nas
+* widok gry: 
+  3 kafelki z wymaganiami
+  textbox na odp
+  button submin
+  timer - progressbar
+* strona do wyświetlania wyników - co rundę
+* widok końcowy - wynik końcowy - create game, join game, home page
+- tryb dzień/noc
