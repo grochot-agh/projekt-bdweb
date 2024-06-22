@@ -1,0 +1,11 @@
+Planowanie 22.06.2024r.
+
+1. Ogólny zarys projektu
+- backend oparty na socetio
+- architektura klient - serwer
+- omówienie elementów frontendu
+* rejestracja
+* logowanie
+* instrukcja
+* navbar:
+HomePage - Dołącz do gry - Stwórz grę - Help -> instrukcja - o nas
