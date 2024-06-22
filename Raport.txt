@@ -21,3 +21,5 @@ HomePage - Dołącz do gry - Stwórz grę - Help -> instrukcja - o nas
 * strona do wyświetlania wyników - co rundę
 * widok końcowy - wynik końcowy - create game, join game, home page
 - tryb dzień/noc
+Termin kolejnego spotkania:
+27.06 - retro - 19.00
