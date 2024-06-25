@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Room</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body>
+    <h1>Room: {{ room.name }}</h1>
+    <h2>Users:</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Points</th>
+            </tr>
+        </thead>
+        <tbody id="users-table">
+            {% for user in room.users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.points }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        const socket = io();
+
+        socket.on('connect', function() {
+            socket.emit('join', {room: '{{ room.id }}'});
+        });
+
+        socket.on('user_update', function(data) {
+            const usersTable = document.getElementById('users-table');
+            usersTable.innerHTML = '';
+            data.users.forEach(user => {
+                const row = `<tr><td>${user.username}</td><td>${user.points}</td></tr>`;
+                usersTable.innerHTML += row;
+            });
+        });
+    </script>
+</body>
+</html>
