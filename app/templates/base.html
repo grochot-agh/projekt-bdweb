@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> 
   <title>{% block title %}{% endblock %}</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <style>
     .container-fluid {
@@ -16,6 +17,33 @@
     }
     #navbar {
       background-image: linear-gradient(to bottom right, rgb(109, 16, 113), rgb(30, 7, 92));
+    }
+    #shout {
+      font-size: 120px;
+      font-family: sans-serif;
+      font-weight: 700;
+      color: white;
+      padding-top: 10px;
+      padding-left: 10px;
+    }
+    #home_h1 {
+      color: white;
+      font-size: 60px;
+      padding-top: 20px;
+      padding-bottom: 40px;
+    }
+    #home_desc {
+      color: white;
+      font-size: 25px;
+      padding-top: 10px;
+      padding-bottom: 40px;
+    }
+    #home_btn {
+      font-size: 30px;
+      margin-bottom: 40px;
+      width: 150px;
+      background-color: rgba(254, 251, 253, 0.8);
+      color: rgb(110, 19, 229);
     }
   </style>
 </head>
@@ -31,20 +59,20 @@
       <div class="collapse navbar-collapse" id="rooms">
           <ul class="navbar-nav fs-4 me-auto" id="navbarNav">
             <li class="nav-item">
-              <a class="nav-link fs-4" href="movies.html">Home</a>
+              <a class="nav-link fs-4" href="{{ url_for('game.home') }}">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-4" href="char.html">Join</a>
+              <a class="nav-link fs-4" href="{{ url_for('game.join_room') }}">Join</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-4" href="char.html">Create</a>
+              <a class="nav-link fs-4" href="{{ url_for('game.create_room') }}">Create</a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="main.html" role="button" aria-expanded="false">
+              <a class="nav-link dropdown-toggle" role="button"  data-bs-toggle="dropdown" aria-expanded="false">
                 Help
               </a>
               <ul class="dropdown-menu" id="dropdown">
-                <li><a class="dropdown-item" href="main.html#about"></a>Instruction</li>
+                <li><a class="dropdown-item" href="main.html#about">Instruction</a></li>
                 <li><a class="dropdown-item" href="main.html#carousel">About us</a></li>
               </ul>
             </li>
@@ -60,7 +88,7 @@
       </div>
     </nav>
   </div>   
-  <div class="container-fluid vh-100">
+  <div class="container-fluid min-vh-100">
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         <ul class="flashes">

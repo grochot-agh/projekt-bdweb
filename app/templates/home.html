@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+  <div class="row h-100" style="padding-top: 100px;">
+    <div class="col-md-5 text-center">
+      <p id="shout">Play with your friends!</p>
+    </div>
+    <div class="col-md-7 text-center d-flex flex-column justify-content-center align-items-center">
+      <h1 id="home_h1">Create or join a room to play a password puzzle game.</h1>
+      <p id="home_desc">
+        - You will be given three requirements that your password must contain. <br>
+        - Answers must be provided within a specified time. <br>
+        - Your results will be displayed in the table at the end of each round.
+      </p>
+      <div>
+        <a class="btn btn-secondary" id="home_btn" href="{{ url_for('game.create_room') }}" style="margin-right: 30px;">Create</a>
+        <a class="btn btn-secondary" id="home_btn" href="{{ url_for('game.join_room') }}">Join</a>
+      </div>  
+    </div>
+  </div>
+{% endblock %}
