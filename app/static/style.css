@@ -1,0 +1,37 @@
+.container-fluid {
+    background-image: linear-gradient(to bottom right, rgb(252, 130, 246), rgb(93, 0, 215));
+  }
+  #square {
+    width: 30%;
+    background-color: rgba(254, 251, 253, 0.5);
+  }
+  #navbar {
+    background-image: linear-gradient(to bottom right, rgb(109, 16, 113), rgb(30, 7, 92));
+  }
+  #shout {
+    font-size: 120px;
+    font-family: sans-serif;
+    font-weight: 700;
+    color: white;
+    padding-top: 10px;
+    padding-left: 10px;
+  }
+  #home_h1 {
+    color: white;
+    font-size: 60px;
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
+  #home_desc {
+    color: white;
+    font-size: 25px;
+    padding-top: 10px;
+    padding-bottom: 40px;
+  }
+  #home_btn {
+    font-size: 30px;
+    margin-bottom: 40px;
+    width: 150px;
+    background-color: rgba(254, 251, 253, 0.8);
+    color: rgb(110, 19, 229);
+  }
