@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Game</title>
+</head>
+<body>
+    <h1>Game is on!</h1>
+    <div id="progress-bar-container">
+        <div id="progress-bar" style="width: 100%; background-color: #4caf50; text-align: center; color: white;">30s</div>
+    </div>
+
+    <script>
+        let timeLeft = 30;
+        const progressBar = document.getElementById('progress-bar');
+
+        const timer = setInterval(function() {
+            timeLeft--;
+            progressBar.style.width = `${(timeLeft / 30) * 100}%`;
+            progressBar.textContent = `${timeLeft}s`;
+
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                window.location.href = "{{ url_for('game.end_game', room_id=room.id) }}";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

@@ -24,22 +24,10 @@
             {% endfor %}
         </tbody>
     </table>
-
-    <script>
-        const socket = io();
-
-        socket.on('connect', function() {
-            socket.emit('join', {room: '{{ room.id }}'});
-        });
-
-        socket.on('user_update', function(data) {
-            const usersTable = document.getElementById('users-table');
-            usersTable.innerHTML = '';
-            data.users.forEach(user => {
-                const row = `<tr><td>${user.username}</td><td>${user.points}</td></tr>`;
-                usersTable.innerHTML += row;
-            });
-        });
-    </script>
+    
+    {% if current_user == room.owner %}
+        <button id="start-game" data-room-id="{{ room.id }}">Start Game</button>
+    {% endif %}
+    <script src="{{ url_for('static', filename='client.js') }}"></script>
 </body>
 </html>

@@ -24,12 +24,14 @@ class Room(db.Model):
     name = db.Column(db.String(150), unique=True, nullable=False)
     password_hash = db.Column(db.String(150), nullable=False)
     users = db.relationship('User', secondary='room_users', backref='rooms')
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    owner = db.relationship('User', backref='owned_rooms')
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+        return check_password_hash(self.password_hash, password)    
 
 room_users = db.Table('room_users',
     db.Column('room_id', db.Integer, db.ForeignKey('room.id'), primary_key=True),
