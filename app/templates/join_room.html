@@ -1,20 +1,23 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Join Room</title>
-</head>
-<body>
-    <h1>Join Room</h1>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <p>
+{% extends "base.html" %}
+{% block title %}Join Room{% endblock %}
+{% block content %}
+  <div class="row vh-100">
+    <div class="col d-flex flex-column justify-content-center align-items-center">
+      <div class="row text-center border border-3 p-4" id="square">
+        <h2>Join Room</h2>
+        <form method="POST" action="">
+          {{ form.hidden_tag() }}
+          <p>
             {{ form.name.label }}<br>
-            {{ form.name(size=32) }}<br>
+            {{ form.name(style="width: 80%") }}<br>
+          </p>
+          <p>
             {{ form.password.label }}<br>
-            {{ form.password(size=32) }}<br>
-            {{ form.submit() }}
-        </p>
-    </form>
-</body>
-</html>
+            {{ form.password(style="width: 80%") }}<br>
+          </p>
+          <p>{{ form.submit(class="btn active", style="background-color: rgb(93, 0, 215, 0.6); border-color: rgb(93, 0, 215); color: white;") }}</p>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
