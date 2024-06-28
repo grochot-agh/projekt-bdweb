@@ -1,11 +1,12 @@
 var socket = io();
-var room;
+var roomId = roomId || '';
 socket.on('connect', function() {
-    console.log('Connected to Socket.IO server');
-    socket.emit('join', {room: '{{ room.id }}'});
+    socket.emit('join', {room: roomId});
+    console.log(roomId);
 });
 
 socket.on('user_update', function(data) {
+    console.log(data);
     const usersTable = document.getElementById('users-table');
     usersTable.innerHTML = '';
     data.users.forEach(user => {

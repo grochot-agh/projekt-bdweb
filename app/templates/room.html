@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Room</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <h1>Room: {{ room.name }}</h1>
@@ -28,6 +29,9 @@
     {% if current_user == room.owner %}
         <button id="start-game" data-room-id="{{ room.id }}">Start Game</button>
     {% endif %}
+    <script>
+        var roomId = "{{ room.id }}";  // Przekazanie room_id do JavaScript
+    </script>
     <script src="{{ url_for('static', filename='client.js') }}"></script>
 </body>
 </html>
