@@ -1,4 +1,5 @@
-from flask import Flask
+from flask import Flask, render_template, flash, redirect, url_for
+from flask import redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_socketio import SocketIO
@@ -26,8 +27,13 @@ def create_app():
     with app.app_context():
         db.create_all()
 
+    @app.route('/')
+    def index():
+        return render_template('home.html')
+
     return app
 
 if __name__ == '__main__':
     app = create_app()
     socketio.run(app, debug=True)
+

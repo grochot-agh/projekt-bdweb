@@ -12,3 +12,4 @@ if __name__ == '__main__':
         db.create_all()
         print("init succes!")
     app.run(debug=True)
+    

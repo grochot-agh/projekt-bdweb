@@ -1,8 +1,9 @@
 var socket = io();
 var roomId = roomId || '';
+
 socket.on('connect', function() {
     socket.emit('join', {room: roomId});
-    console.log(roomId);
+    console.log('joined: ' + roomId)
 });
 
 socket.on('user_update', function(data) {
@@ -15,13 +16,17 @@ socket.on('user_update', function(data) {
     });
 });
 
-document.getElementById('start-game').addEventListener('click', function() {
-    const startGameButton = document.getElementById('start-game');
-    const roomId = startGameButton.dataset.roomId;
-    socket.emit('start_game', {room: roomId});
+document.addEventListener('DOMContentLoaded', function() {
+    var startGameButton = document.getElementById('start-game');
+    if (startGameButton) {
+        startGameButton.addEventListener('click', function() {
+            console.log(roomId);
+            socket.emit('start_game', {room: roomId});
+        });
+    }
 });
 
 socket.on('redirect_to_game', function(data) {
-    console.log('hi');
+    console.log('Redirecting to game');
     window.location.href = data.url;
 });

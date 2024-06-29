@@ -11,7 +11,8 @@
     </div>
 
     <script>
-        let timeLeft = 30;
+        // Retrieve timeLeft from localStorage if available, otherwise initialize
+        let timeLeft = localStorage.getItem('timeLeft') || 30;
         const progressBar = document.getElementById('progress-bar');
 
         const timer = setInterval(function() {
@@ -19,7 +20,12 @@
             progressBar.style.width = `${(timeLeft / 30) * 100}%`;
             progressBar.textContent = `${timeLeft}s`;
 
+            // Store timeLeft in localStorage
+            localStorage.setItem('timeLeft', timeLeft);
+
             if (timeLeft <= 0) {
+                timeLeft = 30
+                localStorage.setItem('timeLeft', timeLeft);
                 clearInterval(timer);
                 window.location.href = "{{ url_for('game.end_game', room_id=room.id) }}";
             }
@@ -27,3 +33,4 @@
     </script>
 </body>
 </html>
+    

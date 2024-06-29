@@ -8,20 +8,20 @@ from app.models import User
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('tasks.index'))
+        return redirect(url_for('game.home'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember.data)
-            return redirect(url_for('auth.dashboard'))
+            return redirect(url_for('game.home'))
         flash('Invalid username or password')
     return render_template('login.html', form=form)
 
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('tasks.index'))
+        return redirect(url_for('game.home'))
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(username=form.username.data)
@@ -37,8 +37,3 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
-
-@bp.route('/dashboard')
-@login_required
-def dashboard():
-    return f'Hello, {current_user.username}!'
