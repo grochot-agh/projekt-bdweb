@@ -27,6 +27,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 socket.on('redirect_to_game', function(data) {
-    console.log('Redirecting to game');
+    localStorage.setItem('timeLeft', 30);
+    localStorage.setItem('formSubmitted', 'false');
     window.location.href = data.url;
+    
 });
+

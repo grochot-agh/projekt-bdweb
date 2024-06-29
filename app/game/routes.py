@@ -5,6 +5,7 @@ from app.game import bp
 from app.game.forms import CreateRoomForm, JoinRoomForm
 from app.models import User, Room
 
+
 @bp.route('/create_room', methods=['GET', 'POST'])
 @login_required
 def create_room():
@@ -45,6 +46,8 @@ def room(room_id):
     return render_template('room.html', room=room)
 
 import datetime  # Upewnij się, że moduł datetime jest poprawnie zaimportowany
+import random
+import string
 
 @bp.route('/play_game/<int:room_id>')
 @login_required
@@ -52,22 +55,20 @@ def play_game(room_id):
     room = Room.query.get_or_404(room_id)
     if current_user not in room.users:
         return redirect(url_for('game.room', room_id=room_id))
+    
+    random_number = random.randint(3, 8)
+    first_random_letter = random.choice(string.ascii_lowercase)
+    second_random_letter = random.choice(string.ascii_lowercase)
 
     start_time = request.args.get('start_time', datetime.datetime.now().isoformat())
-    return render_template('game.html', room=room, start_time=start_time)
+    return render_template('game.html', room=room, start_time=start_time, random_number = random_number,
+                           first_random_letter = first_random_letter, second_random_letter=second_random_letter)
 
 
 @bp.route('/end_game/<int:room_id>')
 @login_required
 def end_game(room_id):
     room = Room.query.get_or_404(room_id)
-    if current_user not in room.users:
-        return redirect(url_for('game.room', room_id=room_id))
-
-    for user in room.users:
-        user.points += 10  
-    db.session.commit()
-
     return redirect(url_for('game.room', room_id=room_id))
 
 @bp.route('/home')
@@ -89,3 +90,15 @@ def handle_start_game(data):
     room_id = data['room']
     print(f"Start game for room {room_id}")
     socketio.emit('redirect_to_game', {'url': url_for('game.play_game', room_id=room_id)}, to=room_id)
+
+@socketio.on('submit_points')
+def handle_submit_points(data):
+    time_percentage = float(data['timePercentage'])
+    answer = data['answer']
+    letter_number = int(data['random_number'])
+    first_required_letter = data['first_random_letter']
+    second_required_letter = data['second_random_letter']
+    print(len(answer))
+    if len(answer) == letter_number and first_required_letter in answer and second_required_letter in answer:
+        current_user.points += int(time_percentage*100)
+    db.session.commit()

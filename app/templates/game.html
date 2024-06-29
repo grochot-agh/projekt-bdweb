@@ -1,11 +1,25 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="pl">
 <head>
     <meta charset="utf-8">
-    <title>Game</title>
+    <title>Room</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <h1>Game is on!</h1>
+    <div id='requirements'>
+        Requirements: 
+        {{random_number}}
+        {{first_random_letter}}
+        {{second_random_letter}}
+    </div>
+    <div id='answer'>
+        <label for="word">Answer:</label>
+        <input type="text" id="word" name="word" required>
+        <button id="submit">Submit</button>
+    </div>
+
     <div id="progress-bar-container">
         <div id="progress-bar" style="width: 100%; background-color: #4caf50; text-align: center; color: white;">30s</div>
     </div>
@@ -24,13 +38,36 @@
             localStorage.setItem('timeLeft', timeLeft);
 
             if (timeLeft <= 0) {
-                timeLeft = 30
                 localStorage.setItem('timeLeft', timeLeft);
                 clearInterval(timer);
                 window.location.href = "{{ url_for('game.end_game', room_id=room.id) }}";
             }
         }, 1000);
+
+        // Check if the form was already submitted
+        if (localStorage.getItem('formSubmitted') === 'true') {
+            document.getElementById('answer').style.display = 'none';
+        }
+
+        var roomId = "{{ room.id }}";
+        var socket = io();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var pointsForm = document.getElementById('submit');
+            if (pointsForm) {
+                pointsForm.addEventListener('click', function(event) {
+                    var timePercentage = localStorage.getItem('timeLeft') / 30;
+                    var answer = document.getElementById('word').value;
+                    socket.emit('submit_points', { room: roomId, timePercentage: timePercentage, random_number: "{{random_number}}",
+                        first_random_letter: "{{first_random_letter}}", second_random_letter: "{{second_random_letter}}", answer: answer });
+                    document.getElementById('word').value = '';  // Clear the input field after submission
+                    document.getElementById('answer').style.display = 'none';
+
+                    // Save the form submission state
+                    localStorage.setItem('formSubmitted', 'true');
+                });
+            }
+        });
     </script>
 </body>
 </html>
-    
