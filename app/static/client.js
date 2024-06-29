@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (startGameButton) {
         startGameButton.addEventListener('click', function() {
             console.log(roomId);
+            flag = false;
             socket.emit('start_game', {room: roomId});
         });
     }

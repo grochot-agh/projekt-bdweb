@@ -31,6 +31,11 @@
     {% endif %}
     <script>
         var roomId = "{{ room.id }}";  // Przekazanie room_id do JavaScript
+        var flag = true;
+        window.addEventListener('beforeunload', function(event) {
+            console.log(flag);
+            flag = true;
+});
     </script>
     <script src="{{ url_for('static', filename='client.js') }}"></script>
 </body>

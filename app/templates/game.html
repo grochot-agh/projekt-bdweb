@@ -25,6 +25,11 @@
     </div>
 
     <script>
+        var flag = true;
+        window.addEventListener('beforeunload', function(event) {
+            console.log(flag);
+            flag = true;
+        })
         // Retrieve timeLeft from localStorage if available, otherwise initialize
         let timeLeft = localStorage.getItem('timeLeft') || 30;
         const progressBar = document.getElementById('progress-bar');
@@ -38,6 +43,7 @@
             localStorage.setItem('timeLeft', timeLeft);
 
             if (timeLeft <= 0) {
+                flag = false
                 localStorage.setItem('timeLeft', timeLeft);
                 clearInterval(timer);
                 window.location.href = "{{ url_for('game.end_game', room_id=room.id) }}";
