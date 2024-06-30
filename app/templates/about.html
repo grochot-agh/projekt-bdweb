@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Instructions{% endblock %}
+{% block content %}
+<script>
+    jQuery(document).ready(function(){
+    $('#cont').mousemove(function(e){
+        var rXP = (e.pageX - this.offsetLeft-$(this).width()/2);
+        var rYP = (e.pageY - this.offsetTop-$(this).height()/2);
+        $('#bored').css('text-shadow', +rYP/10+'px '+rXP/80+'px rgba(109, 16, 113,.8), '+rYP/8+'px '+rXP/60+'px rgba(252, 130, 246, 0.6), '+rXP/70+'px '+rYP/12+'px rgba(30, 7, 92,.7)');
+        });
+    });
+</script>
+  <div class="row min-vh-100">
+    <div class="col d-flex flex-column justify-content-center align-items-center">
+      <div class="row text-center border border-3 p-4" id="square2">
+        <h1 style="font-size: 50px;">About us</h1>
+        <p>
+            This website was created by students of AGH University of Krakow. 
+            Any questions can be directed to the university, but I doubt there will be any. 
+            After all, the site is non-public :).  <div id="bored">Have fun with the game!</div>
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock %}
