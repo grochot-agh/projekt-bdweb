@@ -5,8 +5,14 @@
     font-family: "Outfit";
   }
   #square {
-    width: 30%;
+    width: 450px;
     background-color: rgba(254, 251, 253, 0.5);
+  }
+  #square2 {
+    width: 500px;
+    background-color: rgba(254, 251, 253, 0.3);
+    color: white;
+    font-size: 30px;
   }
   #navbar {
     background-image: linear-gradient(to bottom right, rgb(109, 16, 113), rgb(30, 7, 92));
