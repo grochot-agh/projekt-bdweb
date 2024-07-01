@@ -46,6 +46,9 @@
                 var flag = true;
                 window.addEventListener('beforeunload', function(event) {
                     console.log(flag);
+                    if(flag == true){
+                        socket.emit('leave', {room: roomId});
+                    }
                     flag = true;
                 });
             </script>

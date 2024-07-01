@@ -3,7 +3,12 @@ from flask_login import current_user, login_required
 from app import db, socketio
 from app.game import bp
 from app.game.forms import CreateRoomForm, JoinRoomForm
-from app.models import User, Room
+from app.models import User, Room, room_users
+from textblob import Word
+
+def is_english_word(word):
+    return Word(word).spellcheck()[0][1] == 1.0
+
 
 
 @bp.route('/create_room', methods=['GET', 'POST'])
@@ -85,6 +90,25 @@ def handle_join(data):
     room = Room.query.get(room_id)
     socketio.emit('user_update', {'users': [{'username': user.username, 'points': user.points} for user in room.users]}, to=room_id)
 
+from flask_socketio import leave_room
+
+@socketio.on('leave')
+def handle_leave(data):
+    room_id = data['room']
+    leave_room(room_id)
+    room = Room.query.get(room_id)
+    if room:
+        room.users.remove(current_user)
+    current_user.points = 0
+    db.session.commit()
+    if(room):
+        socketio.emit('user_update', {'users': [{'username': user.username, 'points': user.points} for user in room.users]}, to=room_id)
+        if current_user == room.owner:
+            socketio.emit('redirect_to_home', {'url': url_for('game.home')}, to=room_id)
+            db.session.delete(room)
+            db.session.commit()
+        
+
 @socketio.on('start_game')
 def handle_start_game(data):
     room_id = data['room']
@@ -98,7 +122,7 @@ def handle_submit_points(data):
     letter_number = int(data['random_number'])
     first_required_letter = data['first_random_letter']
     second_required_letter = data['second_random_letter']
-    print(len(answer))
-    if len(answer) == letter_number and first_required_letter in answer and second_required_letter in answer:
+    print(is_english_word(answer))
+    if is_english_word(answer) and len(answer) == letter_number and first_required_letter in answer and second_required_letter in answer:
         current_user.points += int(time_percentage*100)
     db.session.commit()

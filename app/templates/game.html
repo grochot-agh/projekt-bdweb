@@ -25,11 +25,10 @@
     </div>
 
     <script>
+        var roomId = "{{ room.id }}";
+        var socket = io();
         var flag = true;
-        window.addEventListener('beforeunload', function(event) {
-            console.log(flag);
-            flag = true;
-        })
+
         // Retrieve timeLeft from localStorage if available, otherwise initialize
         let timeLeft = localStorage.getItem('timeLeft') || 30;
         const progressBar = document.getElementById('progress-bar');
@@ -55,8 +54,7 @@
             document.getElementById('answer').style.display = 'none';
         }
 
-        var roomId = "{{ room.id }}";
-        var socket = io();
+
 
         document.addEventListener('DOMContentLoaded', function() {
             var pointsForm = document.getElementById('submit');
@@ -74,6 +72,15 @@
                 });
             }
         });
+
+        window.addEventListener('beforeunload', function(event) {
+            console.log(flag);
+            if(flag == true){
+                socket.emit('leave', {room: roomId});
+            }
+            flag = true;
+
+        })
     </script>
 </body>
 </html>

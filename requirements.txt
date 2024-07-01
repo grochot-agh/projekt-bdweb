@@ -6,3 +6,6 @@ flask_wtf
 wtforms
 wtforms.validators
 datetime
+spacy
+en_core_web_sm
+textblob

@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (startGameButton) {
         startGameButton.addEventListener('click', function() {
             console.log(roomId);
-            flag = false;
             socket.emit('start_game', {room: roomId});
         });
     }
@@ -30,7 +29,15 @@ document.addEventListener('DOMContentLoaded', function() {
 socket.on('redirect_to_game', function(data) {
     localStorage.setItem('timeLeft', 30);
     localStorage.setItem('formSubmitted', 'false');
+    flag = false;
     window.location.href = data.url;
+    
+});
+
+socket.on('redirect_to_home', function(data) {
+    console.log("hej");
+    window.location.href = data.url;
+    socket.emit('leave', {room: roomId})
     
 });
 
