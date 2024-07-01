@@ -66,7 +66,7 @@ def play_game(room_id):
     second_random_letter = random.choice(string.ascii_lowercase)
 
     start_time = request.args.get('start_time', datetime.datetime.now().isoformat())
-    return render_template('game2.html', room=room, start_time=start_time, random_number = random_number,
+    return render_template('game.html', room=room, start_time=start_time, random_number = random_number,
                            first_random_letter = first_random_letter, second_random_letter=second_random_letter)
 
 
