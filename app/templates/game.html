@@ -1,34 +1,40 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="utf-8">
-    <title>Room</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <h1>Game is on!</h1>
-    <div id='requirements'>
-        Requirements: 
-        {{random_number}}
-        {{first_random_letter}}
-        {{second_random_letter}}
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+  <div class="row h-100" style="padding-top: 100px;">
+    <div class="container d-flex align-items-center">
+        <h1 class="flex-shrink-1 me-4" id="game-on">Game is on!</h1>
+        <div class="progress flex-grow-1" id="progress-bar-container">
+            <div class="progress-bar bg-secondary progress-bar-striped progress-bar-animated border border-light" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" id="progress-bar">30s</div>
+        </div>
     </div>
-    <div id='answer'>
-        <label for="word">Answer:</label>
-        <input type="text" id="word" name="word" required>
-        <button id="submit">Submit</button>
+    <div class="col">
+        <div class="row d-flex flex-row justify-content-evenly" id='requirements'>
+            <div class="text-center border border-3 px-4" id="req">
+                Your password must be {{random_number}} characters long.
+            </div>
+            <div class="text-center border border-3 px-4" id="req">
+                Your password must contain the letter "{{first_random_letter}}".
+            </div>
+            <div class="text-center border border-3 px-4" id="req">
+                Yout password must contain the letter "{{second_random_letter}}".
+            </div>
+        </div>
     </div>
-
-    <div id="progress-bar-container">
-        <div id="progress-bar" style="width: 100%; background-color: #4caf50; text-align: center; color: white;">30s</div>
+    <div style="display: flex;" id='answer'>
+        <div class="form-floating flex-grow-1 mx-3 ms-5 mb-5">
+            <input type="text" class="form-control" id="word" name="word" placeholder="word">
+            <label for="word">Your answer</label>
+        </div>
+        <button class="btn btn-secondary mx-4 me-5 mb-5" id="submit">Submit</button>
     </div>
 
     <script>
-        var roomId = "{{ room.id }}";
-        var socket = io();
         var flag = true;
-
+        window.addEventListener('beforeunload', function(event) {
+            console.log(flag);
+            flag = true;
+        })
         // Retrieve timeLeft from localStorage if available, otherwise initialize
         let timeLeft = localStorage.getItem('timeLeft') || 30;
         const progressBar = document.getElementById('progress-bar');
@@ -54,7 +60,8 @@
             document.getElementById('answer').style.display = 'none';
         }
 
-
+        var roomId = "{{ room.id }}";
+        var socket = io();
 
         document.addEventListener('DOMContentLoaded', function() {
             var pointsForm = document.getElementById('submit');
@@ -72,15 +79,6 @@
                 });
             }
         });
-
-        window.addEventListener('beforeunload', function(event) {
-            console.log(flag);
-            if(flag == true){
-                socket.emit('leave', {room: roomId});
-            }
-            flag = true;
-
-        })
     </script>
-</body>
-</html>
+  </div>
+{% endblock %}
